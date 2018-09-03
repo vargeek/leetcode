@@ -1,0 +1,27 @@
+package other
+
+import "testing"
+
+func Test_leastInterval(t *testing.T) {
+	type args struct {
+		tasks []byte
+		n     int
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"1", args{[]byte{'A', 'A', 'A', 'B', 'B', 'B'}, 2}, 8},
+		{"2", args{[]byte{'A', 'A', 'A', 'A', 'B', 'B', 'B'}, 2}, 10},
+		{"3", args{[]byte{'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'C', 'C', 'C', 'C', 'D', 'D', 'D', 'E', 'E', 'F'}, 2}, 25},
+		{"4", args{[]byte{'A', 'A', 'A', 'A', 'A', 'A', 'B', 'C', 'D', 'E', 'F', 'G'}, 2}, 16},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := leastInterval(tt.args.tasks, tt.args.n); got != tt.want {
+				t.Errorf("leastInterval() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
