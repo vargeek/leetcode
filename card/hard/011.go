@@ -9,7 +9,7 @@ package hard
 // 	}
 // 	return num2
 // }
-func maxSlidingWindow(nums []int, k int) []int {
+func maxSlidingWindow1(nums []int, k int) []int {
 	if len(nums) == 0 {
 		return []int{}
 	}
@@ -37,6 +37,32 @@ func maxSlidingWindow(nums []int, k int) []int {
 	maxs := make([]int, length-k+1)
 	for i := 0; i+k <= length; i++ {
 		maxs[i] = max(maxRToL[i], maxLToR[i+k-1])
+	}
+
+	return maxs
+}
+
+func maxSlidingWindow(nums []int, k int) []int {
+	if len(nums) == 0 {
+		return []int{}
+	}
+	maxs := make([]int, len(nums)-k+1)
+	deque := make([]int, len(nums))
+
+	left := 0
+	right := -1
+	for i, num := range nums {
+		if left <= right && deque[left] < i-k+1 {
+			left++
+		}
+		for left <= right && num > nums[deque[right]] {
+			right--
+		}
+		right++
+		deque[right] = i
+		if i-k+1 >= 0 {
+			maxs[i-k+1] = nums[deque[left]]
+		}
 	}
 
 	return maxs
